@@ -1,31 +1,97 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { Button } from '../ui/button'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
+     const [input, setInput] = useState({
+          fullname:"",
+          email:"",
+          phoneNumber:"",
+          password:"",
+          confirmPassword:"",
+          role:"",
+          file:""
+        });
+        const [formError, setFormError] = useState({
+            email:"",
+            password:"",
+            confirmPassword:"",
+        })
+    
+        const changeEventHandler = (e) => {
+          setInput({...input, [e.target.name]: e.target.value});
+        }
+    
+        const changeFileHandler = (e) => {
+          setInput({...input, file: e.target.files?.[0]});
+        }
+        const submitHandler = async (e) => {
+            e.preventDefault();
+
+            let InputError = {
+                email: "",
+                password: "",
+                confirmPassword: "",
+            };
+        
+            let hasError = false;
+        
+            if (!input.email) {
+                InputError.email = "Email is required";
+                hasError = true;
+            }
+        
+            if (!input.password) {
+                InputError.password = "Password is required";
+                hasError = true;
+            }
+        
+            if (input.password !== input.confirmPassword) {
+                InputError.confirmPassword = "Passwords do not match";
+                hasError = true;
+            }
+        
+            if (hasError) {
+                setFormError(InputError);
+                return;
+            }
+        
+            setFormError(InputError); // Clear errors
+            console.log("Validation success", input);
+         
+        }
     return (
         <div>
             <Navbar />
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
-                <form action="" className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
                     <div className='my-2'>
                         <Label className='mb-2'>Full Name</Label>
-                        <Input type="text" placeholder='Name'></Input>
+                        <Input value={input.fullname} name='fullname' onChange={changeEventHandler}  type="text" placeholder='Name'></Input>
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Email</Label>
-                        <Input type="email" placeholder='dung@gmail.com'></Input>
+                        <Input value={input.email} name='email' onChange={changeEventHandler} type="email" placeholder='dung@gmail.com'></Input>
+                        <Label className='text-red-500'>{formError.email}</Label>
                     </div>
                     <div className='my-2'>
                         <Label className='mb-2'>Phone Number</Label>
-                        <Input type="text" placeholder='01234567890'></Input>
+                        <Input value={input.phoneNumber} name='phoneNumber' onChange={changeEventHandler} type="text" placeholder='01234567890'></Input>
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Password</Label>
-                        <Input type="password" placeholder=''></Input>
+                        <Input value={input.password} name='password' onChange={changeEventHandler}  type="password" placeholder='Enter Password'></Input>
+                        <Label className='text-red-500'>{formError.password}</Label>
+                    </div>
+                    <div className='my-5'>
+                        <Label className='mb-2'>Confirm Password</Label>
+                        <Input value={input.confirmPassword} name='confirmPassword' onChange={changeEventHandler}  type="confirmPassword" placeholder='Enter Confirm Password'></Input>
+                        <Label className='text-red-500'>{formError.confirmPassword}</Label>
                     </div>
                     <div className='flex items-center justify-between my-5'>
                         <RadioGroup className='flex items-center gap-6'>
@@ -35,6 +101,8 @@ const Signup = () => {
                                     type='radio'
                                     name='role'
                                     value='jobseeker'
+                                    checked={input.role === 'jobseeker'}
+                                    onChange={changeEventHandler}
                                     className='cursor-pointer'
                                 />
                                 <Label htmlFor="r1" className="whitespace-nowrap">Job Seeker</Label>
@@ -45,13 +113,27 @@ const Signup = () => {
                                     type='radio'
                                     name='role'
                                     value='recruiter'
+                                    checked={input.role === 'recruiter'}
+                                    onChange={changeEventHandler}
                                     className='cursor-pointer'
                                 />
                                 <Label htmlFor="r2">Recruiter</Label>
                             </div>
                         </RadioGroup>
+                        <div className='flex items-center gap-2'>
+                            <Label>Profile</Label>
+                            <Input
+                                accept="image/*"
+                                type='file'
+                                name='file'
+                                value={input.file}
+                                onChange={changeFileHandler}
+                                className='cursor-pointer'
+                            />
+                        </div>
                     </div>
-
+                    <Button type='submit' className='w-full my-4'>Sign Up</Button>
+                    <span>Already have an account? <Link to='/login' className='text-blue-600'>Login</Link></span>
                 </form>
             </div>
         </div>
