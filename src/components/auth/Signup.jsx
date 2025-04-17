@@ -5,65 +5,91 @@ import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import { register } from '@/api/auth'
+import { Toaster } from '../ui/sonner'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+
 
 const Signup = () => {
-     const [input, setInput] = useState({
-          fullname:"",
-          email:"",
-          phoneNumber:"",
-          password:"",
-          confirmPassword:"",
-          role:"",
-          file:""
-        });
-        const [formError, setFormError] = useState({
-            email:"",
-            password:"",
-            confirmPassword:"",
-        })
-    
-        const changeEventHandler = (e) => {
-          setInput({...input, [e.target.name]: e.target.value});
-        }
-    
-        const changeFileHandler = (e) => {
-          setInput({...input, file: e.target.files?.[0]});
-        }
-        const submitHandler = async (e) => {
-            e.preventDefault();
+    const [input, setInput] = useState({
+        fullname: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+        role: "",
+        file: ""
+    });
+    const [formError, setFormError] = useState({
+        email: "",
+        password: "",
+        confirmPassword: "",
+    })
 
-            let InputError = {
-                email: "",
-                password: "",
-                confirmPassword: "",
-            };
-        
-            let hasError = false;
-        
-            if (!input.email) {
-                InputError.email = "Email is required";
-                hasError = true;
-            }
-        
-            if (!input.password) {
-                InputError.password = "Password is required";
-                hasError = true;
-            }
-        
-            if (input.password !== input.confirmPassword) {
-                InputError.confirmPassword = "Passwords do not match";
-                hasError = true;
-            }
-        
-            if (hasError) {
-                setFormError(InputError);
-                return;
-            }
-        
-            setFormError(InputError); // Clear errors
-            console.log("Validation success", input);
-         
+    const navigate = useNavigate();
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    }
+
+    const changeFileHandler = (e) => {
+        setInput({ ...input, file: e.target.files?.[0] });
+    }
+    const errorHandler = () => {
+        let InputError = {
+            email: "",
+            password: "",
+            confirmPassword: "",
+        };
+
+        let hasError = false;
+
+        if (!input.email) {
+            InputError.email = "Email is required";
+            hasError = true;
         }
+
+        if (!input.password) {
+            InputError.password = "Password is required";
+            hasError = true;
+        }
+
+        if (input.password !== input.confirmPassword) {
+            InputError.confirmPassword = "Passwords do not match";
+            hasError = true;
+        }
+
+        if (hasError) {
+            setFormError(InputError);
+            return;
+        }
+
+        setFormError(InputError); // Clear errors
+    }
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        errorHandler();
+        const formData = new FormData();
+        formData.append("fullname", input.fullname);
+        formData.append("email", input.email);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("password", input.password);
+        formData.append("role", input.role);
+        if (input.file) {
+            formData.append("file", input.file);
+        }
+        try {
+            const res = await register(formData);
+            if (res.data.success) {
+                navigate("/login");
+                toast.success("Registration successful");
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+
+    }
     return (
         <div>
             <Navbar />
@@ -72,7 +98,7 @@ const Signup = () => {
                     <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
                     <div className='my-2'>
                         <Label className='mb-2'>Full Name</Label>
-                        <Input value={input.fullname} name='fullname' onChange={changeEventHandler}  type="text" placeholder='Name'></Input>
+                        <Input value={input.fullname} name='fullname' onChange={changeEventHandler} type="text" placeholder='Name'></Input>
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Email</Label>
@@ -85,12 +111,12 @@ const Signup = () => {
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Password</Label>
-                        <Input value={input.password} name='password' onChange={changeEventHandler}  type="password" placeholder='Enter Password'></Input>
+                        <Input value={input.password} name='password' onChange={changeEventHandler} type="password" placeholder='Enter Password'></Input>
                         <Label className='text-red-500'>{formError.password}</Label>
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Confirm Password</Label>
-                        <Input value={input.confirmPassword} name='confirmPassword' onChange={changeEventHandler}  type="confirmPassword" placeholder='Enter Confirm Password'></Input>
+                        <Input value={input.confirmPassword} name='confirmPassword' onChange={changeEventHandler} type="password" placeholder='Enter Confirm Password'></Input>
                         <Label className='text-red-500'>{formError.confirmPassword}</Label>
                     </div>
                     <div className='flex items-center justify-between my-5'>
@@ -125,8 +151,6 @@ const Signup = () => {
                             <Input
                                 accept="image/*"
                                 type='file'
-                                name='file'
-                                value={input.file}
                                 onChange={changeFileHandler}
                                 className='cursor-pointer'
                             />
@@ -136,6 +160,7 @@ const Signup = () => {
                     <span>Already have an account? <Link to='/login' className='text-blue-600'>Login</Link></span>
                 </form>
             </div>
+   
         </div>
     )
 }

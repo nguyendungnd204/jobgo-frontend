@@ -5,6 +5,10 @@ import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import { login } from '@/api/auth'
+import { Toaster } from '../ui/sonner'
+import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -13,16 +17,25 @@ const Login = () => {
       role:"",
     });
 
+    const navigate = useNavigate();
     const changeEventHandler = (e) => {
       setInput({...input, [e.target.name]: e.target.value});
     }
-    const url = import.meta.env.VITE_API_END_POINT;
 
     const submitHandler = async (e) => {
-      e.preventDefault();
-      console.log(input);
-      console.log("url"+ url);
-     
+        e.preventDefault();
+        try {
+            const res = await login(input);
+            if (res.data.success) {
+                navigate("/");
+                toast.success(res.data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+
     }
 
     return (
@@ -33,11 +46,11 @@ const Login = () => {
                     <h1 className='font-bold text-xl mb-5'>Login</h1>
                     <div className='my-5'>
                         <Label className='mb-2'>Email</Label>
-                        <Input value={input.email} name='email' onChange={changeEventHandler} type="email"  placeholder='dung@gmail.com'></Input>
+                        <Input value={input.email} name='email' onChange={changeEventHandler} type="email"  placeholder='dung@gmail.com' required ></Input>
                     </div>
                     <div className='my-5'>
                         <Label className='mb-2'>Password</Label>
-                        <Input value={input.password} name='password' onChange={changeEventHandler} type="password" placeholder=''></Input>
+                        <Input value={input.password} name='password' onChange={changeEventHandler} type="password" placeholder='' required></Input>
                     </div>
                     <div className='flex items-center justify-between my-5'>
                         <RadioGroup className='flex items-center gap-6'>
@@ -68,10 +81,11 @@ const Login = () => {
                         </RadioGroup>
                        
                     </div>
-                    <Button type='submit' className='w-full my-4'>Login</Button>
+                    <Button type='submit' className='w-full my-4 cursor-pointer'>Login</Button>
                     <span>Don't have an account? <Link to='/signup' className='text-blue-600'>Signup</Link></span>
                 </form>
             </div>
+            
         </div>
     )
 }

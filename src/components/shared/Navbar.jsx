@@ -4,6 +4,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { LogOut, User2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { Toaster } from '@/components/ui/sonner'
+import { toast } from 'sonner'
 
 const Navbar = () => {
   const user = false 
@@ -64,6 +66,7 @@ const Navbar = () => {
         </div>
 
       </div>
+      <Toaster />
 
     </div>
   )
