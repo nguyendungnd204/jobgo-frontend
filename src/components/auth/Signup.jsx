@@ -9,6 +9,9 @@ import { register } from '@/api/auth'
 import { Toaster } from '../ui/sonner'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 
 const Signup = () => {
@@ -66,6 +69,10 @@ const Signup = () => {
 
         setFormError(InputError); // Clear errors
     }
+
+    const { loading } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
     const submitHandler = async (e) => {
         e.preventDefault();
         errorHandler();
@@ -79,6 +86,7 @@ const Signup = () => {
             formData.append("file", input.file);
         }
         try {
+            dispatch(setLoading(true));
             const res = await register(formData);
             if (res.data.success) {
                 navigate("/login");
@@ -87,6 +95,8 @@ const Signup = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        } finally {
+            dispatch(setLoading(false));
         }
 
     }
@@ -156,7 +166,9 @@ const Signup = () => {
                             />
                         </div>
                     </div>
-                    <Button type='submit' className='w-full my-4'>Sign Up</Button>
+                    {
+                        loading? <Button className='w-full my-4'> <Loader2 className='mr-2 w-4 animate-spin' /> Please wait </Button>: <Button type='submit' className='w-full my-4 cursor-pointer'>Signup</Button>
+                    }
                     <span>Already have an account? <Link to='/login' className='text-blue-600'>Login</Link></span>
                 </form>
             </div>

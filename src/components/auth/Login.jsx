@@ -9,6 +9,9 @@ import { login } from '@/api/auth'
 import { Toaster } from '../ui/sonner'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -17,7 +20,10 @@ const Login = () => {
       role:"",
     });
 
+    const {loading} = useSelector((state) => state.auth);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const changeEventHandler = (e) => {
       setInput({...input, [e.target.name]: e.target.value});
     }
@@ -25,6 +31,7 @@ const Login = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+            dispatch(setLoading(true));
             const res = await login(input);
             if (res.data.success) {
                 navigate("/");
@@ -34,6 +41,9 @@ const Login = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+
+        } finally {
+            dispatch(setLoading(false));
         }
 
     }
@@ -81,7 +91,10 @@ const Login = () => {
                         </RadioGroup>
                        
                     </div>
-                    <Button type='submit' className='w-full my-4 cursor-pointer'>Login</Button>
+                    {
+                        loading? <Button className='w-full my-4'> <Loader2 className='mr-2 w-4 animate-spin' /> Please wait </Button>: <Button type='submit' className='w-full my-4 cursor-pointer'>Login</Button>
+
+                    }
                     <span>Don't have an account? <Link to='/signup' className='text-blue-600'>Signup</Link></span>
                 </form>
             </div>
