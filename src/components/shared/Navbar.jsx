@@ -66,7 +66,7 @@ const Navbar = () => {
         </div>
 
       </div>
-      <Toaster />
+      
 
     </div>
   )
