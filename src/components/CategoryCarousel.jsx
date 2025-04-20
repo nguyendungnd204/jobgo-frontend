@@ -18,7 +18,6 @@ const CategoryCarousel = () => {
                     category.map((cat, index) => (
                         <CarouselItem className='md:basics-1/2 lg-basics-1/3'>
                             <Button variant='outline' className='rounded-full'>{cat}</Button>
-                
                         </CarouselItem>
                     ))
                 }
