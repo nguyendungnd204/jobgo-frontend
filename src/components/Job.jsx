@@ -9,7 +9,7 @@ const Job = () => {
   return (
     <div className='w-full max-w-xs p-5 rounded-xl shadow-md bg-white border border-gray-100'>
       <div className='flex items-center justify-between text-sm text-gray-500'>
-        <p>2 days ago</p>
+        <p className='text-sm text-gray-500'>2 days ago</p>
         <Button variant='outline' className='rounded-full' size='icon'>
           <Bookmark className='w-4 h-4' />
         </Button>
@@ -20,8 +20,8 @@ const Job = () => {
           <AvatarImage src={logo} alt='Company Logo' />
         </Avatar>
         <div>
-          <h2 className='text-lg font-semibold text-black'>Company Name</h2>
-          <p className='text-gray-500'>Viet Nam</p>
+          <h1 className='font-medium text-lg'>Company Name</h1>
+          <p className=' text-sm text-gray-500'>Viet Nam</p>
         </div>
       </div>
 
