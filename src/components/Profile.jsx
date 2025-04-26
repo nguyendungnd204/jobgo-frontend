@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './shared/Navbar'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -6,10 +6,12 @@ import { Contact, Mail, Pen } from 'lucide-react'
 import { Badge } from './ui/badge'
 import { Label } from './ui/label'
 import AppliedJobTable from './AppliedJobTable'
+import UpdateProfileDialog from './UpdateProfileDialog'
 
 const skills = ["Html", "Css", "Javascript", "React", "NodeJs", "Express", "MongoDB"]
 
 const Profile = () => {
+    const [open, setOpen] = useState(false);
     const isResume = true // Kiểm tra xem có phải là resume hay không
     return (
         <div>
@@ -28,7 +30,7 @@ const Profile = () => {
                     </div>
 
                     {/* Nút Edit nằm bên phải */}
-                    <Button variant='outline' className='text-right'>
+                    <Button onClick={() => setOpen(true)} variant='outline' className='text-right'>
                         <Pen className='w-4 h-4' />
                     </Button>
                 </div>
@@ -63,6 +65,7 @@ const Profile = () => {
                 <h1 className='font-bold text-medium text-left mb-2'>Applied Jobs</h1>
                 <AppliedJobTable />
             </div>
+            <UpdateProfileDialog open={open} setOpen={setOpen} />
         </div>
 
     )
