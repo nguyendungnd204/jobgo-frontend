@@ -2,14 +2,60 @@ import React, { useState } from 'react'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from './ui/button'
+import { updateProfile } from '@/api/user'
+import { toast } from 'sonner'
+import { setUser } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false);
-    const {user} = useSelector((state) => state.auth.user);
+    const {user} = useSelector((store => store.auth));
     const [input, setInput] = useState({
-        fullname: user?.name,
-    })
+        fullname: user?.fullname,
+        email: user?.email,
+        phoneNumber: user?.phoneNumber,
+        bio: user?.profile?.bio,
+        skills: user?.profile?.skills?.map(skill => skill),
+        file: user?.profile?.resume
+    });
+
+    const dispatch = useDispatch();
+
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    }
+
+    const fileChangeHandler = (e) => {
+        const file = e.target.files?.[0];
+        setInput({ ...input, file });
+    }
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("fullname", input.fullname);
+        formData.append("email", input.email);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("bio", input.bio);
+        formData.append("skills", input.skills);
+        if(input.file){
+            formData.append("file", input.file);
+        }
+        try {
+            const res = await updateProfile(formData);
+            if (res.data.success) {
+                dispatch(setUser(res.data.user));
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            toast.error("Update failed");
+            console.log(error);
+        } 
+        console.log(input);
+        setOpen(false);   
+    }
     return (
         <div>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -17,13 +63,16 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
                     </DialogHeader>
-                    <form>
+                    <form onSubmit={submitHandler}>
                         <div className='grid gap-4 py-4'>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor='name' className='text-right'>Name</Label>
+                                <Label htmlFor='fullname' className='text-right'>Name</Label>
                                 <Input
-                                    id='name'
-                                    name='name'
+                                    id='fullname'
+                                    name='fullname'
+                                    type='text'
+                                    value={input.fullname || ''}
+                                    onChange={changeEventHandler}
                                     className='col-span-3'
                                 >
                                 </Input>
@@ -33,15 +82,20 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id='email'
                                     name='email'
+                                    type='email'
+                                    value={input.email || ''}
+                                    onChange={changeEventHandler}
                                     className='col-span-3'
                                 >
                                 </Input>
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor='number' className='text-right whitespace-nowrap'>Phone Number</Label>
+                                <Label htmlFor='phoneNumber' className='text-right whitespace-nowrap'>Phone Number</Label>
                                 <Input
-                                    id='number'
-                                    name='number'
+                                    id='phoneNumber'
+                                    name='phoneNumber'
+                                    value={input.phoneNumber || ''}
+                                    onChange={changeEventHandler}
                                     className='col-span-3'
                                 >
                                 </Input>
@@ -51,6 +105,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id='bio'
                                     name='bio'
+                                    value={input.bio || ''}
+                                    onChange={changeEventHandler}
                                     className='col-span-3'
                                 >
                                 </Input>
@@ -60,6 +116,8 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Input
                                     id='skills'
                                     name='skills'
+                                    value={input.skills || ''}
+                                    onChange={changeEventHandler}
                                     className='col-span-3'
                                 >
                                 </Input>
@@ -71,6 +129,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     name='file'
                                     className='col-span-3'
                                     type='file'
+                                    onChange={fileChangeHandler}
                                     accept='application/pdf'
                                 >
                                 </Input>
