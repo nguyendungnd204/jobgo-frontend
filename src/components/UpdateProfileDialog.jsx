@@ -44,6 +44,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             formData.append("file", input.file);
         }
         try {
+            setLoading(true);
             const res = await updateProfile(formData);
             if (res.data.success) {
                 dispatch(setUser(res.data.user));
@@ -52,7 +53,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         } catch (error) {
             toast.error("Update failed");
             console.log(error);
-        } 
+        } finally {
+            setLoading(false);
+        }
         console.log(input);
         setOpen(false);   
     }
@@ -130,7 +133,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className='col-span-3'
                                     type='file'
                                     onChange={fileChangeHandler}
-                                    accept='application/pdf'
+                                    accept='application/pdf, image/*'
                                 >
                                 </Input>
                             </div>

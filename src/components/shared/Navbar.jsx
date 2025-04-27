@@ -11,6 +11,15 @@ import store from '@/redux/store'
 
 const Navbar = () => {
   const {user} = useSelector(store => store.auth);
+
+  const logoutHandler = async () => {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
   return (
     <div className='bg-white '>
       <div className='flex items-center justify-between mx-auto max-7xl h-16'>
@@ -55,7 +64,7 @@ const Navbar = () => {
                 </div>
                 <div className='flex w-fit items-center gap-2 cursor-pointer'>
                   <LogOut/>
-                  <Button variant='link'>Logout</Button>
+                  <Button onClick={logoutHandler} variant='link'>Logout</Button>
                 </div>
                 
               </div>
