@@ -3,18 +3,27 @@ import React from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { LogOut, User2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store from '@/redux/store'
+import { logout } from '@/api/auth'
+import { setUser } from '@/redux/authSlice'
 
 const Navbar = () => {
   const {user} = useSelector(store => store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = async () => {
     try {
-      
+      const res = await logout();
+      if(res.data.success){
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

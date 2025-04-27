@@ -29,7 +29,7 @@ export const login = async (userData) => {
         },
         withCredentials: true
     })
-        if (res.status === 200) {
+        if (res.data.success) {
             return res; 
         } else {
             throw new Error("Login failed"); 
@@ -38,5 +38,15 @@ export const login = async (userData) => {
     } catch (error) {
         console.log("Error: ", error);
         throw error;     
+    }
+}
+
+export const logout = async () => {
+    try {
+        const res = await axios.get(`${API_URL}/logout`,{withCredentials: true});
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }
