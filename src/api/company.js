@@ -41,3 +41,13 @@ export const getCompanyById = async (companyId) => {
         throw error;
     }
 }
+
+export const getCompanies = async () => {
+    try {
+        const res = await axios.get(`${API_URL}/get`, {withCredentials: true});
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
