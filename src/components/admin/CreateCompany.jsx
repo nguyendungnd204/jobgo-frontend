@@ -6,19 +6,23 @@ import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
 import { registerCompany } from '@/api/company'
 import { toast } from 'sonner'
+import { useDispatch } from 'react-redux'
+import { setSingleCompany } from '@/redux/companySlice'
 
 const CreateCompany = () => {
 
     const navigate = useNavigate();
     const [companyName, setCompanyName] = useState();
+    const dispatch = useDispatch();
 
     const registerNewCompany = async () => {
        try {
         const res = await registerCompany({companyName});
-
+        console.log(companyName)
         if(res.data.success){
+            dispatch(setSingleCompany(res.data.data))
             toast.success(res.data.message);
-            const companyId = res?.data?.company?._id;
+            const companyId = res?.data?.data?._id;
             navigate(`/admin/companies/${companyId}`);
         }
        } catch (error) {
