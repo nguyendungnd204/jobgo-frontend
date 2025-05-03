@@ -19,3 +19,12 @@ export const getJobById = async (jobId) => {
         console.log(error);
     }
 }
+
+export const getAllAdminJobs = async () => {
+    try {
+        const res = await axios.get(`${API_URL}/getadminjobs`, {withCredentials: true})
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}

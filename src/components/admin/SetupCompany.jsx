@@ -8,8 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux'
 import { updateCompany } from '@/api/company'
+import useGetCompanyById from '@/hooks/useGetComapnyById'
 
 const SetupCompany = () => {
+    const params = useParams();
+    useGetCompanyById(params.id);
     const [input, setInput] = useState({
         name: "",
         description: "",
@@ -20,7 +23,6 @@ const SetupCompany = () => {
 
     const {singleCompany} = useSelector(store => store.company);
     const [loading, setLoading] = useState(false);
-    const params = useParams();
     const navigate = useNavigate();
 
     const changeEventHandler = (e) => {
@@ -75,7 +77,7 @@ const SetupCompany = () => {
             <div className='max-w-xl mx-auto my-10'>
                 <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={() => navigate('/admin/companies')} variant='outline' className='flex items-center gap-2 text-gray-500 font-semibold'>
+                        <Button type="button" onClick={() => navigate('/admin/companies')} variant='outline' className='flex items-center gap-2 text-gray-500 font-semibold'>
                             <ArrowLeft />
                             <span>Back</span>
                         </Button>
