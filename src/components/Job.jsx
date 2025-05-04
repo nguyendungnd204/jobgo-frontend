@@ -27,7 +27,7 @@ const Job = ({job}) => {
 
       <div className='flex items-center gap-4 mt-4'>
         <Avatar className='w-12 h-12'>
-          <AvatarImage src={logo} alt='Company Logo' />
+          <AvatarImage src={job?.company?.logo} alt='Company Logo' />
         </Avatar>
         <div>
           <h1 className='font-medium text-lg'>{job?.company?.name}</h1>

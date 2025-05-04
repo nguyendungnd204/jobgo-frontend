@@ -28,7 +28,7 @@ const JobsAdmin = () => {
         <div className='flex items-center justify-between my-5'>
           <Input
             className='w-fit'
-            placeholder='Filter by name'
+            placeholder='Filter by name, role'
             onChange={(e) => setInput(e.target.value)}
           >
           </Input>

@@ -10,8 +10,8 @@ const LastestJobCard = ({job}) => {
       </div>
 
       <div className="mb-4">
-        <h2 className="text-base text-gray-700">{job?.title}</h2>
-        <p className="font-bold text-lg text-gray-900">{job?.description}</p>
+        <h2 className="font-bold text-lg text-gray-700">{job?.title}</h2>
+        <p className="text-base text-gray-900">{job?.description}</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

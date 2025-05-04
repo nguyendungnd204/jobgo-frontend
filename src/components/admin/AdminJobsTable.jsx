@@ -9,12 +9,8 @@ import { useNavigate } from 'react-router-dom'
 import { setSearchJobByText } from '@/redux/jobSlice'
 
 const AdminJobsTable = () => {
-    const companyState = useSelector(store => store.company);
-    const {searchCompanyByText} = useSelector(store => store.company);
-    const companies = companyState?.companies || [];
-
     const {allAdminJobs, searchJobByText} = useSelector(store => store.job)
-    const [filterJobs, setFilterJobs] = useState(companies);
+    const [filterJobs, setFilterJobs] = useState(allAdminJobs);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,7 +21,7 @@ const AdminJobsTable = () => {
             return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText);
         });
         setFilterJobs(filteredJobs);
-    }, [companies, searchJobByText])
+    }, [allAdminJobs, searchJobByText])
 
 
     return (

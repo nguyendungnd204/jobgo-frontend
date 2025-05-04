@@ -8,6 +8,7 @@ export const getAllJobs = async () => {
         return res;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 }
 
@@ -17,6 +18,7 @@ export const getJobById = async (jobId) => {
         return res;
     } catch (error) {
         console.log(error);
+        throw error;
     }
 }
 
@@ -26,5 +28,22 @@ export const getAllAdminJobs = async () => {
         return res;
     } catch (error) {
         console.log(error);
+        throw error;
+    }
+}
+
+export const postJob = async (data) => {
+    try {
+        const res = await axios.post(`${API_URL}/create`, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        })
+
+        return res
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
 }
