@@ -32,3 +32,14 @@ export const updateStatus = async (id, status) => {
         throw error;
     }
 }
+
+export const getAllAppliedJobs = async () => {
+    try {
+        const res = await axios.get(`${API_URL}/get`, {withCredentials:true});
+
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
