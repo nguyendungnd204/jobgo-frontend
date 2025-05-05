@@ -1,9 +1,11 @@
 import React from 'react'
 import { Badge } from './ui/badge'
+import { useNavigate } from 'react-router-dom'
 
 const LastestJobCard = ({job}) => {
+  const navigate = useNavigate();
   return (
-    <div className="p-6 rounded-xl shadow-lg bg-white border border-gray-200 cursor-pointer transition hover:shadow-2xl text-left">
+    <div onClick={() => navigate(`/jobs/${job._id}`)} className="p-6 rounded-xl shadow-lg bg-white border border-gray-200 cursor-pointer transition hover:shadow-2xl text-left">
       <div className="mb-2">
         <h1 className="font-semibold text-lg text-gray-800">{job?.company?.name}</h1>
         <p className="text-sm text-gray-500">{job?.location}</p>

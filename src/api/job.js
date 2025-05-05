@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_API_END_POINT}/api/v1/job`;
 
-export const getAllJobs = async () => {
+export const getAllJobs = async (searchedQuery) => {
     try {
-        const res = await axios.get(`${API_URL}/get`, {withCredentials: true})
+        const res = await axios.get(`${API_URL}/get?keyword=${searchedQuery}`, {withCredentials: true})
         return res;
     } catch (error) {
         console.log(error);

@@ -24,7 +24,7 @@ const AppliedJobTable = () => {
                             <TableCell className='text-left'>{appliedJob?.createdAt.split("T")[0]}</TableCell>
                             <TableCell className='text-left'>{appliedJob.job?.title}</TableCell>
                             <TableCell className='text-left'>{appliedJob.job?.company?.name}</TableCell>
-                            <TableCell className='text-right'><Badge>{appliedJob.status}</Badge></TableCell>
+                            <TableCell className='text-right'><Badge className={`${appliedJob?.status === 'rejected' ? 'bg-red-400' : appliedJob === 'pending' ?'bg-gray-400' : 'bg-green-400'}`}>{appliedJob.status.toUpperCase()}</Badge></TableCell>
                         </TableRow>
                     ))
                 }
