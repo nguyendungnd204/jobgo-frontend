@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Navbar from './shared/Navbar'
-import { Avatar, AvatarImage } from './ui/avatar'
-import { Button } from './ui/button'
+import Navbar from '../components/shared/Navbar'
+import { Avatar, AvatarImage } from '../components/ui/avatar'
+import { Button } from '../components/ui/button'
 import { Contact, Mail, Pen } from 'lucide-react'
-import { Badge } from './ui/badge'
-import { Label } from './ui/label'
-import AppliedJobTable from './AppliedJobTable'
-import UpdateProfileDialog from './UpdateProfileDialog'
+import { Badge } from '../components/ui/badge'
+import { Label } from '../components/ui/label'
 import { useSelector } from 'react-redux'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJob'
+import AppliedJobTable from '@/components/AppliedJobTable'
+import UpdateProfileDialog from './UpdateProfileDialog'
 
 
 const Profile = () => {

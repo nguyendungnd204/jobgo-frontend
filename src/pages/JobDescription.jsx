@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Badge } from './ui/badge'
-import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
 import { setSingleJob } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJobById } from '@/api/job';
 import { getApplycantJob } from '@/api/application';
 import { toast } from 'sonner';
+import { Badge } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const JobDescription = () => {
     

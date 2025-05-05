@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Label } from '../../components/ui/label'
+import { Input } from '../../components/ui/input'
+import { Button } from '../../components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { registerCompany } from '@/api/company'
 import { toast } from 'sonner'
 import { useDispatch } from 'react-redux'
 import { setSingleCompany } from '@/redux/companySlice'
+import Navbar from '@/components/shared/Navbar'
 
 const CreateCompany = () => {
 

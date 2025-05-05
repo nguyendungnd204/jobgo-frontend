@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Button } from '../ui/button'
+import { Button } from '../../components/ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
+import { Label } from '../../components/ui/label'
+import { Input } from '../../components/ui/input'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux'
 import { updateCompany } from '@/api/company'
 import useGetCompanyById from '@/hooks/useGetComapnyById'
+import Navbar from '@/components/shared/Navbar'
 
 const SetupCompany = () => {
     const params = useParams();

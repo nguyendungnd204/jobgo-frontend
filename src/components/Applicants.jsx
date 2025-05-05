@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Navbar from '../shared/Navbar'
+import Navbar from './shared/Navbar'
 import ApplicantsTable from './ApplicantsTable'
 import { getApplicants } from '@/api/application'
 import { useParams } from 'react-router-dom'

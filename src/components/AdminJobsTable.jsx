@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Avatar, AvatarImage } from '../ui/avatar'
-import logo from '../../assets/logoCompany.jpg'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setSearchJobByText } from '@/redux/jobSlice'
 
 const AdminJobsTable = () => {
     const {allAdminJobs, searchJobByText} = useSelector(store => store.job)

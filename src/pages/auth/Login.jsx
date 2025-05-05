@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
-import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
-import { login } from '@/api/auth'
-import { Toaster } from '../ui/sonner'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 import { setUser } from '@/redux/authSlice'
+import Navbar from '@/components/shared/Navbar'
+import { Label } from '@radix-ui/react-label'
+import { RadioGroup } from '@/components/ui/radio-group'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { login } from '@/api/auth'
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -42,7 +40,7 @@ const Login = () => {
 
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error("Failed to login");
 
         } finally {
             dispatch(setLoading(false));
@@ -62,11 +60,11 @@ const Login = () => {
             <div className='flex items-center justify-center max-w-7xl mx-auto'>
                 <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-xl mb-5'>Login</h1>
-                    <div className='my-5'>
-                        <Label className='mb-2'>Email</Label>
+                    <div className='my-5 text-left'>
+                        <Label className='mb-2 '>Email</Label>
                         <Input value={input.email} name='email' onChange={changeEventHandler} type="email"  placeholder='dung@gmail.com' required ></Input>
                     </div>
-                    <div className='my-5'>
+                    <div className='my-5 text-left'>
                         <Label className='mb-2'>Password</Label>
                         <Input value={input.password} name='password' onChange={changeEventHandler} type="password" placeholder='' required></Input>
                     </div>

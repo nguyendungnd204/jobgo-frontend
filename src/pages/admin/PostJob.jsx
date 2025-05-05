@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Label } from '../../components/ui/label'
+import { Input } from '../../components/ui/input'
+import { Button } from '../../components/ui/button'
 import { useSelector } from 'react-redux'
 import {
     Select,
@@ -16,6 +15,7 @@ import { postJob } from '@/api/job'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
+import Navbar from '@/components/shared/Navbar'
 
 
 

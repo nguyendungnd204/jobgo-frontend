@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import Navbar from '../shared/Navbar'
-import CompaniesTable from './CompaniesTable'
+import { Input } from '../../components/ui/input'
+import { Button } from '../../components/ui/button'
 import { useNavigate } from 'react-router-dom'
-import useGetAllCompanies from '@/hooks/useGetAllComapnies'
 import { useDispatch } from 'react-redux'
-import { setSearchCompanyByText } from '@/redux/companySlice'
+import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
+import { setSearchJobByText } from '@/redux/jobSlice'
+import Navbar from '@/components/shared/Navbar'
+import AdminJobsTable from '@/components/AdminJobsTable'
 
-const Companies = () => {
+const JobsAdmin = () => {
+  useGetAllAdminJobs();
   const navigate = useNavigate();
-  useGetAllCompanies();
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setSearchCompanyByText(input));
+    dispatch(setSearchJobByText(input));
   }, [input])
 
   return (
@@ -25,16 +25,16 @@ const Companies = () => {
         <div className='flex items-center justify-between my-5'>
           <Input
             className='w-fit'
-            placeholder='Filter by name'
+            placeholder='Filter by name, role'
             onChange={(e) => setInput(e.target.value)}
           >
           </Input>
-          <Button onClick={() => navigate("/admin/companies/create")}>New Company</Button>
+          <Button onClick={() => navigate("/admin/jobs/create")}>New Job</Button>
         </div>
-        <CompaniesTable />
+        <AdminJobsTable />
       </div>
     </div>
   )
 }
 
-export default Companies
+export default JobsAdmin

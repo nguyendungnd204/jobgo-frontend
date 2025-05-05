@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import Navbar from './shared/Navbar'
-import HeroSection from './HeroSection'
-import CategoryCarousel from './CategoryCarousel'
-import LastestJobs from './LastestJobs'
-import Footer from './shared/Footer'
+
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '@/components/shared/Navbar'
+import HeroSection from '@/components/HeroSection'
+import CategoryCarousel from '@/components/CategoryCarousel'
+import LastestJobs from '@/components/LastestJobs'
+import Footer from '@/components/shared/Footer'
 
 const Home = () => {
   useGetAllJobs();
