@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -70,7 +70,7 @@ const Signup = () => {
         setFormError(InputError); // Clear errors
     }
 
-    const { loading } = useSelector((state) => state.auth);
+    const { loading, user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const submitHandler = async (e) => {
@@ -100,6 +100,12 @@ const Signup = () => {
         }
 
     }
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    })
     return (
         <div>
             <Navbar />
@@ -167,12 +173,12 @@ const Signup = () => {
                         </div>
                     </div>
                     {
-                        loading? <Button className='w-full my-4'> <Loader2 className='mr-2 w-4 animate-spin' /> Please wait </Button>: <Button type='submit' className='w-full my-4 cursor-pointer'>Signup</Button>
+                        loading ? <Button className='w-full my-4'> <Loader2 className='mr-2 w-4 animate-spin' /> Please wait </Button> : <Button type='submit' className='w-full my-4 cursor-pointer'>Signup</Button>
                     }
                     <span>Already have an account? <Link to='/login' className='text-blue-600'>Login</Link></span>
                 </form>
             </div>
-   
+
         </div>
     )
 }
